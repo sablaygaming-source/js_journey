@@ -45,17 +45,20 @@ git remote add origin https://github.com/sablaygaming-source/js_journey.git
 git branch -M main
 git push -u origin main
 
-how to pull from GitHub to local drive 
+
+HOW TO PULL FROM GITHUB TO LOCAL DRIVE 
 git pull --rebase origin main
 # Resolve conflicts if needed, then push
 git push origin main
 
-
+REGULAR PULLING( from GitHub to local drive)
 git pull origin main
 git push origin main
 git add <file-name>
 git commit
 git push origin main
+
+
 
 
 const fs = require('fs').promises; // Use the Promise-based API for fs
