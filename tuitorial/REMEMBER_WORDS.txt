@@ -17,7 +17,9 @@ npm install prompt-sync
 
 Palos_Cabral@1  supaBase      Palos_Cabral@1
 
-sa github
+sa GitHub
+
+git config --list  view the config
 git add .     iadd lahat ng nasa folder
 git init 
 git commit -m "Initial commit"
