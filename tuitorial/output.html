@@ -1,0 +1,34 @@
+<html>
+       
+    <header >
+    <title id = "ulo">
+    titlemo
+
+    </title>
+
+    </header>
+    <body>
+
+    <script>
+        'use strict';
+        const fs = require('fs');
+
+        async function readFileAsync() {
+        try {
+            const data = await fs.readFile('c:\test\example.txt', 'utf8');
+            console.log('File content:', data);
+        } catch (err) {
+            console.error('An error occurred:', err);
+        }
+        }
+
+        readFileAsync();
+        console.log("end of prog.... ", array );
+
+    </script>
+    
+    </body>
+
+</html>
+
+

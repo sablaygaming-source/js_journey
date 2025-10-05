@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Text File</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+        <h1 class="text-2xl font-bold mb-4">Read a Text File</h1>
+        <p class="text-gray-600 mb-6">Select a text file from your computer to display its content.</p>
+
+        <!-- File input element -->
+        <input type="file" id="fileInput" class="block w-full text-sm text-gray-500
+                                             file:mr-4 file:py-2 file:px-4
+                                             file:rounded-full file:border-0
+                                             file:text-sm file:font-semibold
+                                             file:bg-blue-50 file:text-blue-700
+                                             hover:file:bg-blue-100 mb-6">
+
+        <h2 class="text-xl font-semibold mt-6 mb-2">File Content:</h2>
+        <pre id="fileContent" class="bg-gray-50 p-4 rounded-md border border-gray-200 text-left whitespace-pre-wrap font-mono text-sm overflow-auto max-h-64"></pre>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const fileInput = document.getElementById('fileInput');
+            const fileContent = document.getElementById('fileContent');
+
+            fileInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                
+                // Ensure a file was selected
+                if (!file) {
+                    fileContent.textContent = "No file selected.";
+                    return;
+                }
+                
+                // Only allow text files
+                if (!file.type.startsWith('text/')) {
+                    fileContent.textContent = "Please select a valid text file.";
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                // This function is called when the file is done loading
+                reader.onload = (e) => {
+                    const content = e.target.result;
+                    fileContent.textContent = content;
+                };
+
+                // Read the file as text
+                reader.readAsText(file);
+            });
+        });
+    </script>
+
+</body>
+</html>

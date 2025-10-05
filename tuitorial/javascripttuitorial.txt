@@ -1,0 +1,845 @@
+
+console.log( variablehere );
+
+console.log() in JavaScript does not display output directly on the visible HTML page. Its purpose is to output messages and data to the browser's developer console.
+
+//declaration
+var = A;
+
+let = A;
+
+const  =A;
+
+
+If you need to display information directly on the HTML page, you would typically manipulate the Document Object Model (DOM) using methods like:
+document.getElementById("elementId").innerHTML = "Your message";
+document.getElementById("elementId").innerText = "Your message";
+document.write("Your message"); (though document.write() is generally discouraged for dynamic content after the page has loaded).
+
+
+property called length
+console.log('Hello'.length); // Prints 5
+
+
+console.log('hello'.toUpperCase()); // Prints 'HELLO'
+console.log('Hey'.startsWith('H')); // Prints true
+
+console.log('Codecademy'.toUpperCase()); //prints CODECADEMY all capital
+
+// Use a string method to log the following string without whitespace at the beginning and end of it.
+console.log('    Remove whitespace   '.trim()); //removes white space in first and last
+
+
+//complete reference for Math object javascript
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/min
+
+
+output in javascript using HTML
+HTML
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>The `document.write()` Method</h1>
+
+<script>
+document.write("This text is written directly to the document.");  //use HTML code like <p> </p> to use another line
+</script>
+
+</body>
+</html>
+
+//using getElementById
+!DOCTYPE html>
+<html>
+<body>
+
+<h1>The `textContent` Method</h1>
+
+<div id="message"></div>
+
+<script>
+const messageDiv = document.getElementById("message");
+messageDiv.textContent = "This is a simple text message. <b>This part will not be bold.</b>";
+</script>
+
+</body>
+</html>
+
+//inner html
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>The `innerHTML` Method</h1>
+
+<p id="demo"></p>
+
+<script>
+document.getElementById("demo").innerHTML = "Hello, world! This text was added by JavaScript.";
+</script>
+
+</body>
+</html>
+
+
+FUNCTION BUTTON ON javascript
+
+//html
+..header here I shortcut it
+<body>
+    <h1>Hello from JavaScript!</h1>
+    <p id="demo"></p>
+
+    <button id="myButton">Click Me</button>
+    <!-- Link to your JavaScript file here -->
+    <script src="script.js"></script>
+</body>
+
+..etc
+at script.js
+// Get the button element
+const button = document.getElementById("myButton");
+
+// Add a click event listener
+button.addEventListener("click", greet);
+
+function greet(){
+
+        var len = 3;
+        for(var i = 0;  i< len; i+=1){
+                document.getElementById("demo").innerHTML = " i " + i ;
+                confirm("PAUSE");
+        
+        }
+}
+
+then open it in a browser
+
+
+For physical printing: Use window.print() to open the browser's print dialog, which allows the user to print the current webpage.
+
+
+//declaring function
+A function parameter is a named variable that a function expects to receive when it is called. Think of it as a placeholder for a value that will be used inside the function's code.
+
+Here's a breakdown of how it works:
+
+Defining Parameters: When you create a function, you list the parameters inside the parentheses (). These are the variables that the function is set up to receive.
+
+JavaScript
+
+// Here, 'a' and 'b' are the parameters
+function addNumbers(a, b) {
+  return a + b;
+}
+Passing Arguments: When you call the function, you provide the actual values for those parameters. These values are called arguments.
+
+JavaScript
+
+// Here, 5 and 10 are the arguments
+let sum = addNumbers(5, 10);
+console.log(sum); // Output: 15
+In this example, the value 5 is passed to the parameter a, and 10 is passed to the parameter b. The function then uses those values to perform the addition.
+
+You can pass any type of data as an argument, including numbers, strings, arrays, or objects.
+
+
+
+// Get a reference to the input field
+const nameInput = document.getElementById('nameInput');
+
+// Get the value from the input field
+const inputValue = nameInput.value;
+
+// Print the retrieved value to the console
+console.log(inputValue);
+
+
+
+//sample code output 
+
+ const addButton = document.getElementById('buttonExecute');
+                               
+                                addButton.addEventListener('click', inputBox);
+                                function inputBox(){//3
+                                        let userName = prompt("enter string");
+                                        console.log("you enter " + userName);
+
+
+
+
+///////////////////////////////////////////////////////////////////
+//IMPORTANT BY REFRENCE AND BY VALUE IN JAVA SCRIPT
+
+JavaScript handles variable assignment differently for two categories of data:
+
+Primitive values (numbers, strings, booleans, null, undefined, Symbol).
+
+Reference values (objects, arrays, functions).  //use const declaration to avoid reference
+
+Assignment by Value (for Primitive Types)
+When you assign a variable containing a primitive value to another variable, a copy of the value is created. They are completely independent of each other.
+
+Example:
+
+JavaScript
+
+let a = 10;
+let b = a; // The value '10' is copied to 'b'
+
+b = 20; // We change 'b'
+
+console.log(a); // Output: 10 (a is unaffected)
+console.log(b); // Output: 20
+In this case, changing b does not affect a because a and b hold two separate, distinct values in memory.
+
+Assignment by Reference (for Reference Types)
+When you assign a variable containing a reference value (like an object or an array) to another variable, the reference (or memory address) is copied, not the value itself. Both variables now point to the exact same object in memory.
+
+Example:
+
+JavaScript
+
+let obj1 = { name: 'Alice' };
+let obj2 = obj1; // The reference to the object is copied
+
+obj2.name = 'Bob'; // We change a property on obj2
+
+console.log(obj1.name); // Output: 'Bob' (obj1 is affected)
+console.log(obj2.name); // Output: 'Bob'
+Here, changing a property on obj2 also changes it for obj1 because they both refer to the same object in your computer's memory.
+
+This is a crucial concept to understand when working with objects and arrays, as it can lead to unexpected side effects if you're not careful.
+
+
+///////////////////////////////////////////////////////////////////
+//IMPORTANT COPYING A VALUE ONLY AND NOT GIVING THE MEMORY ADRESS OF A VARIABLE
+How to Avoid Reference Assignment in JavaScript
+When you assign one object or array variable to another, you are not creating a new copy; you are simply creating a new reference to the same data in memory. To avoid this, you must explicitly create a new, independent copy.
+
+1. The Spread Syntax (...)
+This is the most modern and widely used method for creating a shallow copy of an array or object. It's concise and easy to read.
+
+For Arrays
+The spread syntax creates a new array and "spreads" the elements of the original array into it.
+
+const originalArray = [1, 2, 3];
+
+// Creates a new array with the same elements
+const newArray = [...originalArray];
+
+newArray.push(4); // We modify the new array
+
+console.log(originalArray); // Output: [1, 2, 3] (unaffected)
+console.log(newArray);      // Output: [1, 2, 3, 4]
+
+For Objects
+The same principle applies to objects. The spread syntax creates a new object and copies the properties from the original.
+
+const originalObject = { name: 'Alice', age: 30 };
+
+// Creates a new object with the same properties
+const newObject = { ...originalObject };
+
+newObject.age = 31; // We modify the new object
+
+console.log(originalObject.age); // Output: 30 (unaffected)
+console.log(newObject.age);      // Output: 31
+
+2. The Object.assign() Method
+This method is another way to create a shallow copy of an object. It copies all enumerable own properties from one or more source objects to a target object.
+
+const originalObject = { make: 'Honda' };
+
+// Creates a new, empty object {} and copies properties into it
+const newObject = Object.assign({}, originalObject);
+
+newObject.make = 'Toyota';
+
+console.log(originalObject.make); // Output: "Honda" (unaffected)
+console.log(newObject.make);      // Output: "Toyota"
+
+3. Shallow Copy vs. Deep Copy: An Important Distinction
+The methods above (... and Object.assign()) create shallow copies. This means they copy the top-level properties and values, but if a property's value is another object or array, they only copy the reference to that nested object, not the object itself.
+
+Example of a Shallow Copy Issue:
+
+const user = {
+  name: "Bob",
+  address: { street: "123 Main St" } // A nested object
+};
+
+// Creates a shallow copy
+const userCopy = { ...user };
+
+userCopy.name = "Charlie";                  // This works as expected (primitive value)
+userCopy.address.street = "456 Oak Ave";    // This modifies the original object!
+
+console.log(user.address.street); // Output: "456 Oak Ave" (The original was changed)
+
+4. How to Create a Deep Copy
+To truly copy an object with all its nested properties, you need a deep copy. A simple, though not always perfect, method is to use JSON.parse() and JSON.stringify().
+
+const user = {
+  name: "Bob",
+  address: { street: "123 Main St" }
+};
+
+// Converts the object to a string, then back to a new object
+const userDeepCopy = JSON.parse(JSON.stringify(user));
+
+userDeepCopy.address.street = "456 Oak Ave";
+
+console.log(user.address.street);       // Output: "123 Main St" (The original is unaffected)
+console.log(userDeepCopy.address.street); // Output: "456 Oak Ave"
+
+While this method works for many cases, it has limitations (e.g., it doesn't handle functions, undefined, or Symbol properties). For more robust deep copying, it's common to use a library like Lodash.
+
+
+BY REFERENCE IN ARRAY
+whole array dapat ang i-aasign hindi ung isang element ex:
+
+let originalArray = [1, 2, 3];
+
+// The new variable holds a reference to the same array
+let newArray = originalArray; 
+
+// Modify the new variable
+newArray.push(4);
+
+// The original array is also changed because both variables point to the same location
+console.log(originalArray); 
+// Expected output: [1, 2, 3, 4]
+
+console.log(newArray); 
+// Expected output: [1, 2, 3, 4]
+
+
+pero pag nag pasa ang single variable sa isang element ng array at binago ang laman ng single variable ay hindi aafecto sa array
+
+let var = 10;
+
+newArray[ 0 ] =  var; // aapecto sa originalArray
+var = 100; //hindi aapecto sa originalArray at newArray
+
+
+string format in console.log
+
+" string ", var     // displays variable  string var
+'the
+quick'    //display   the
+	               quick
+
+
+PEDENG IBANG DECLARATION AT MAPAPASAHAN NG ARRAY ex:
+
+let oldArray = [11,12,13];
+let unknown = 111;
+unknown = oldArray;
+unknown[0] = 1000;
+console.log("unknown ", unknown , "\noldArray " , oldArray); // output unknown  (4) [1000, 12, 13, 14] 
+								       oldArray  (4) [1000, 12, 13, 14]
+
+                          
+FUNCTION PARAMETER AND FUNCTION RETURN
+
+function createGreeting(name) { //3  note kung gagawin mong name = 1 ay pag hindi na assignan ng value ang name ay 1 ang default
+if (name) { //4
+return "Hello, " + name + "!"; // Returns a string
+}//4
+                              
+return "Hello, Guest!"; // Returns a different string if no name is provided
+}//3
+
+let userGreeting = createGreeting("Alice");
+console.log(userGreeting); // Outputs: "Hello, Alice!"
+
+let defaultGreeting = createGreeting();
+console.log(defaultGreeting); // Outputs: "Hello, Guest!"
+
+function noReturn() { //5
+let x = 5;
+// This function doesn't have a return statement
+} //5
+
+console.log(noReturn()); // Outputs: undefined
+
+NOTE: ang null ay empty variable, ang undefined ang var na hindi na assignan
+
+
+//////////////////////////////////////////////////////
+Arrow Functions and Implicit Return part ng function return
+With arrow functions, you can use a shorthand for returning an object. If the function body consists of a single return statement, you can omit the return keyword and the curly braces. However, for returning objects, you must wrap the object literal in parentheses () to avoid a common syntax error. Without the parentheses, JavaScript would interpret the curly braces as the start of the function body, not an object.
+
+JavaScript
+// Incorrect: JavaScript thinks `{` is a block, not an object
+// const createPerson = (name, job) => { name: name, job: job }; ❌
+// Correct: Parentheses tell JavaScript to treat `{...}` as an object
+const createPerson = (name, job) => ({ name: name, job: job });
+
+let person = createPerson("Bob", "Developer");
+console.log(person); // Outputs: { name: 'Bob', job: 'Developer' }
+
+
+//////////////////////////////////////////////////////
+Returning an Object with Methods
+An object returned by a function can also contain methods (functions as properties). This allows you to create an object that not only holds data but also has built-in behaviors.
+
+function createCharacter(name, health) {
+  return {
+    name: name,
+    health: health,
+    // A method to decrease health
+    takeDamage(amount) {
+      this.health -= amount;
+      console.log(`${this.name} took ${amount} damage. Health is now ${this.health}`);
+    }
+  };
+}
+
+let player = createCharacter("Warrior", 100);
+console.log(player); // Outputs: { name: 'Warrior', health: 100, takeDamage: [Function: takeDamage] }
+
+player.takeDamage(20); // Outputs: Warrior took 20 damage. Health is now 80
+
+//////////////////////////////////////////////////////
+Scope
+var is function-scoped, meaning a variable declared with var is only accessible within the function it's declared in. If declared outside any function, it is globally scoped.
+
+let is block-scoped, meaning a variable declared with let is confined to the block of code (defined by curly braces {}) it's declared in. This includes if statements, for loops, and other blocks. This makes let a safer choice for avoiding variable leakage.
+
+function example() {
+  if (true) {
+    var varVariable = "I'm var"; // Function-scoped
+    let letVariable = "I'm let";   // Block-scoped
+    console.log(varVariable); // I'm var
+    console.log(letVariable); // I'm let
+  }
+  
+  console.log(varVariable); // I'm var (accessible here)
+  console.log(letVariable); // ReferenceError: letVariable is not defined
+}
+example();
+
+
+Re-declaration
+You can re-declare a var variable within the same scope without an error. This can lead to bugs where you accidentally overwrite a variable.
+
+You cannot re-declare a let variable in the same scope. This strict behavior helps prevent naming conflicts and accidental overwrites, making your code more predictable.
+
+var myVar = "first declaration";
+var myVar = "second declaration"; // This is allowed
+console.log(myVar); // second declaration
+
+let myLet = "first declaration";
+let myLet = "second declaration"; // SyntaxError: Identifier 'myLet' has already been declared
+
+
+//////////////////////////////////////////////////////
+scope defines the accessibility of variables, functions, and objects in your code. It determines where a variable is available for use.
+
+Global Scope: A variable declared in the global scope can be accessed from anywhere in your code. It's defined outside of any function or block.
+
+Function Scope: A variable declared with var inside a function is only accessible within that function. This is a key difference from block scope.
+
+Block Scope: A variable declared with let or const inside a block of code (denoted by curly braces {}), such as an if statement or a for loop, is only accessible within that block. This is the most common type of scope in modern JavaScript.
+
+////////////////////////////////////
+function counter
+
+function createCounter() {
+  let count = 0; // This variable is private to the counter
+
+  // The inner function 'increment' has access to 'count'
+  function increment() {
+    count++;
+    console.log(count);
+  }
+
+  // The outer function returns the inner function
+  return increment;
+}
+
+// 'counter1' is now the 'increment' function
+const counter1 = createCounter();
+
+counter1(); // Outputs: 1
+counter1(); // Outputs: 2
+
+// Each new call to 'createCounter' creates a new, independent closure
+const counter2 = createCounter();
+counter2(); // Outputs: 1
+
+
+//////////////////////////////////////////////
+OBJECT TOPIC 
+in object how to add new property
+
+Dot Notation
+
+'use strict';
+
+let myCar = {
+  make: 'Honda',
+  model: 'Civic'
+};
+
+// This works perfectly fine in strict mode
+myCar.year = 2024;
+
+console.log(myCar); 
+// Output: { make: 'Honda', model: 'Civic', year: 2024 }
+             
+
+ Bracket Notation
+'use strict';
+
+let myUser = {
+  name: 'Jane Doe'
+};
+
+let newProperty = 'email';
+myUser[newProperty] = 'jane.doe@example.com';
+
+console.log(myUser);
+// Output: { name: 'Jane Doe', email: 'jane.doe@example.com' }
+
+Both of these methods are fully compatible with 'use strict' as long as the object you're modifying is extensible, which is the default state for a newly created object.
+
+////////////////////////
+extensible object is an object to which you can add new properties. By default, all objects you create are extensible.
+ang extensible ay ung makakapag add new ka ng property sa isang object
+
+
+Extensibility is a state of an object that can be controlled with the Object.preventExtensions() method. When an object is extensible, you can use dot notation, bracket notation, or other methods to add new key-value pairs to it.
+
+let myObject = {}; // By default, this is extensible
+
+// Add a new property to the extensible object
+myObject.name = 'John Doe';
+console.log(myObject); // Outputs: { name: 'John Doe' }
+
+Preventing Extensions
+To make an object non-extensible, you use Object.preventExtensions(). Once an object is non-extensible, you cannot add any new properties to it. You can still modify or delete existing properties.
+
+let user = {
+  id: 101,
+  name: 'Alice'
+};
+
+// Make the object non-extensible
+Object.preventExtensions(user);
+
+// Trying to add a new property will fail
+user.email = 'alice@example.com';
+
+// In strict mode, this will throw a TypeError
+// In non-strict mode, it will fail silently
+console.log(user); // Outputs: { id: 101, name: 'Alice' } (unchanged)
+
+The concept of extensibility is part of the broader set of object characteristics that can be managed, including writable, configurable, and enumerable, which are controlled by methods like Object.seal() and Object.freeze().
+
+//////////////////////////////////////
+newArray.append = [ ] is not legal in JavaScript. The append method does not exist on a standard JavaScript array.
+
+How to Correctly Add Elements to an Array
+To add elements to a JavaScript array, you should use the standard array methods:
+
+push(): Adds one or more elements to the end of an array. This is the most common and direct way to append items.
+
+let newArray = [];
+newArray.push("item1");
+newArray.push("item2", "item3");
+
+console.log(newArray); // Output: ["item1", "item2", "item3"]
+
+
+concat(): Merges two or more arrays. It creates and returns a new array without modifying the original.
+
+let arr1 = [1, 2];
+let arr2 = [3, 4];
+let combinedArray = arr1.concat(arr2);
+
+console.log(combinedArray); // Output: [1, 2, 3, 4]
+console.log(arr1);        // Output: [1, 2] (original array is unchanged)
+
+
+Spread Syntax (...): This is a modern and very flexible way to append elements. It creates a new array by "spreading" the elements of one array into another.
+
+let newArray = [1, 2];
+let anotherArray = [...newArray, 3, 4];
+
+console.log(anotherArray); // Output: [1, 2, 3, 4]
+
+
+
+///////////////////////////////
+MULTI DIMENSION ARRAY
+
+let array= [];
+let extendIt = 11;
+console.log("array ", array);
+
+let i = 0, j= 0;
+while( i < 2){//3
+array.push([])
+j= 0;
+while( j < 2){//4
+array[i].push(j+ extendIt);
+j+=1;
+}//4
+extendIt +=10;
+i+=1;
+}//3
+
+i = 0, j= 0;
+while( i < 2){//3
+
+j= 0;
+while( j < 2){//4
+console.log("i " , i , ", j ", j , ", array ", array[i][j]);
+j+=1;
+}//4
+i+=1;
+}//3
+
+
+let multiArray = [ [  [1, 2] , [4, 5]  ], [ [6, 7] , [8, 9] ] ];
+
+for(let i =0; i < 2 ; i+=1){//10
+
+    for(let j =0; j < 2 ; j+=1){//11
+
+        for(let k =0; k < 2 ; k+=1){//12
+
+            console.log("i " , i , ", j ", j , ", k ", k , ", multiArray ", multiArray[i][j][k]);
+
+        }//12
+
+    }//11
+
+}//10
+
+/////////////////////////////////////////
+Object-Oriented Programming (OOP) is a style of programming that organizes code into objects. In JavaScript, this is primarily done using prototypes, and more recently, the class syntax.
+
+Key Concepts of OOP
+There are three core principles that define OOP:
+
+Encapsulation: This is the practice of bundling data and the methods that operate on that data into a single unit, which is an object. It hides the internal workings of an object from the outside world, so you can only interact with it through a public interface. This protects the data from being accidentally changed.
+
+Inheritance: This allows you to create a new class (a "child" class) that is based on an existing one (a "parent" class). The child class inherits all the properties and methods from the parent, and you can add new ones or modify existing ones. This promotes code reuse and creates a clear hierarchy.
+
+Polymorphism: This means "many forms." It's the ability of an object to take on different forms, typically through method overriding. A child class can have a method with the same name as a parent class, but with a different implementation. This allows you to use a single interface to handle different types of objects.
+
+1. Defining a Class
+You define a class using the class keyword. A special method called constructor() is where you set the initial properties of the object.
+
+class Dog {
+  constructor(name, breed) {
+    this.name = name;
+    this.breed = breed;
+  }
+}
+
+// Create a new object (instance) of the Dog class
+const myDog = new Dog('Fido', 'Golden Retriever');
+console.log(myDog.name); // Output: Fido
+
+
+2. Adding Methods
+You can add methods directly inside the class body. These methods will be available on all instances of the class.
+
+class Dog {
+  constructor(name, breed) {
+    this.name = name;
+    this.breed = breed;
+  }
+
+  bark() {
+    return `${this.name} says Woof!`;
+  }
+}
+
+const myDog = new Dog('Fido', 'Golden Retriever');
+console.log(myDog.bark()); // Output: Fido says Woof!
+
+
+3. Inheritance with extends
+To create a subclass, you use the extends keyword. The super() method is used inside the constructor to call the parent class's constructor, ensuring the parent's properties are also initialized.
+
+class ServiceDog extends Dog {
+  constructor(name, breed, specialty) {
+    super(name, breed); // Call the parent constructor
+    this.specialty = specialty;
+  }
+
+  // A method that's only on the ServiceDog class
+  getSpecialty() {
+    return `${this.name} is a ${this.specialty} service dog.`;
+  }
+}
+
+const guideDog = new ServiceDog('Buddy', 'Labrador', 'guide');
+console.log(guideDog.bark()); // Inherited method still works: Buddy says Woof!
+console.log(guideDog.getSpecialty()); // New method: Buddy is a guide service dog.
+
+////////////////////////////////////
+ JavaScript, when you define a class, its member variables (properties) and methods are public by default. This means you don't need any special keyword to declare them as public.
+
+Declaring a Public Member Variable
+You declare a public member variable by defining it inside the constructor method using this.
+
+Here's a simple Car class with a public member variable called make:
+
+class Car {
+  constructor(make, model) {
+    // 'make' and 'model' are public member variables
+    this.make = make; 
+    this.model = model;
+  }
+}
+
+
+Accessing a Public Member Variable
+Once you've created an instance of the class, you can access its public member variables directly.
+
+const myCar = new Car('Honda', 'Civic');
+
+// Access the public member variable 'make'
+console.log(myCar.make); 
+// Output: Honda
+
+// You can also change the value of a public member variable
+myCar.make = 'Toyota';
+
+console.log(myCar.make);
+// Output: Toyota
+
+
+///////////////////////////
+using private member of class
+
+class BankAccount {
+  // 1. Declare the private member with the # prefix
+  #balance;
+
+  constructor(initialBalance) {
+    // 2. You can access and set it inside the constructor
+    this.#balance = initialBalance; //note #var used outside constructor
+                                //this.#balance got error
+  }
+
+  // A public method to deposit money
+  deposit(amount) {
+    if (amount > 0) {
+      this.#balance += amount;
+      console.log(`Deposited: $${amount}. New balance is: $${this.#balance}`);
+    } else {
+      console.log("Deposit amount must be positive.");
+    }
+  }
+
+  // A public method to get the balance
+  getBalance() {
+    return this.#balance;
+  }
+}
+
+// Create a new instance of the class
+const myAccount = new BankAccount(100);
+
+// Use a public method to interact with the private member
+myAccount.deposit(50); 
+
+// You can get the balance using the public getter method
+console.log(`Current balance: $${myAccount.getBalance()}`);
+
+// This will cause a SyntaxError: Private field '#balance' must be declared in an enclosing class
+try {
+  console.log(myAccount.#balance); 
+} catch (error) {
+  console.error("Error accessing private member:", error.message);
+}
+
+///////////////////////////////////
+prompt in java script
+
+let userInput = prompt("Please enter a string:");
+
+if (userInput !== null) {
+    // If the user clicks OK, userInput is the string they typed
+    console.log("You entered: " + userInput);
+} else {
+    // If the user clicks Cancel, userInput is null
+    console.log("Input was cancelled.");
+}
+
+//////////////////////////////
+Converting to an Integer
+To convert a string to a whole number (an integer), you use the parseInt() method. It parses a string and returns an integer. It will stop parsing as soon as it encounters a non-numeric character.
+
+
+let str1 = "123";
+let num1 = parseInt(str1);
+console.log(num1); // Output: 123
+
+let str2 = "45.67";
+let num2 = parseInt(str2);
+console.log(num2); // Output: 45 (it stops at the decimal point)
+
+let str3 = "89 meters";
+let num3 = parseInt(str3);
+console.log(num3); // Output: 89 (it stops at the 'm')
+
+let str4 = "meters 89";
+let num4 = parseInt(str4);
+console.log(num4); // Output: NaN (Not a Number)
+
+
+
+let num5 = parseInt("10", 10);
+console.log(num5); // Output: 10
+
+
+let str1 = "123.45";
+let num1 = parseFloat(str1);
+console.log(num1); // Output: 123.45
+
+let str2 = "123.45.67";
+let num2 = parseFloat(str2);
+console.log(num2); // Output: 123.45 (it stops at the second decimal point)
+
+let str3 = "45.67 dollars";
+let num3 = parseFloat(str3);
+console.log(num3); // Output: 45.67
+
+
+let str1 = "123";
+let num1 = +str1;
+console.log(num1); // Output: 123
+
+let str2 = "45.67";
+let num2 = +str2;
+console.log(num2); // Output: 45.67
+
+let str3 = "hello";
+let num3 = +str3;
+console.log(num3); // Output: NaN
+
+
+
+let str1 = "123";
+let num1 = Number(str1);
+console.log(num1); // Output: 123
+
+let str2 = "45.67";
+let num2 = Number(str2);
+console.log(num2); // Output: 45.67
+
+let str3 = "89 meters";
+let num3 = Number(str3);
+console.log(num3); // Output: NaN
+

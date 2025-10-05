@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write and Save Text File</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen p-4">
+    
+    <div class="bg-white p-8 rounded-lg shadow-lg text-center">
+        <h1 class="text-2xl font-bold mb-4">Write and Save a Text File</h1>
+        <p class="text-gray-600 mb-6">Type some text and click the button to save it as a file.</p>
+        
+        <!-- Textarea for user input -->
+        <textarea id="fileContentInput" rows="5" class="w-full p-2 border border-gray-300 rounded-md mb-6 font-mono text-sm" placeholder="Enter text to save..."></textarea>
+        
+        <button id="saveButton" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+            Save as Text File
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const saveButton = document.getElementById('saveButton');
+            const fileContentInput = document.getElementById('fileContentInput');
+
+            saveButton.addEventListener('click', () => {
+                const textToSave = fileContentInput.value;
+                
+                // Create a Blob object with the text content
+                const blob = new Blob([textToSave], { type: 'text/plain' });
+                
+                // Create a temporary URL for the Blob
+                const url = URL.createObjectURL(blob);
+                
+                // Create a temporary link element
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'my_document.txt'; // Set the default file name
+                
+                // Programmatically click the link to trigger the download
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up the temporary URL and element
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        });
+    </script>
+
+</body>
+</html>

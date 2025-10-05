@@ -1,0 +1,89 @@
+
+ZAPIER
+
+
+JS
+arrow function =>  ( js )
+
+arrays.map( arrow_function )
+
+for (let x of list)
+
+arrays.map( arrow_function)
+
+try { } catch( ){ }
+
+npm install prompt-sync 
+
+Palos_Cabral@1  supaBase      Palos_Cabral@1
+
+sa github
+git add .     iadd lahat ng nasa folder
+git init 
+git commit -m "Initial commit"
+git remote add origin https://github.com/<your-username>/<your-repo>.git depende sa site mo
+git branch -M main
+git push -u origin main
+
+pag mag update sa github
+git add .
+git commit -m "Your message"
+git push origin main
+
+
+
+
+
+
+const fs = require('fs').promises; // Use the Promise-based API for fs
+const readline = require('readline');
+
+// Setup the readline interface
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+/**
+ * Wraps rl.question in a Promise for use with async/await.
+ */
+function askQuestion(query) {
+    return new Promise(resolve => rl.question(query, resolve));
+
+}
+
+async function main() {
+    try {
+        // --- 1. Get input asynchronously (using await) ---
+        const userName = await askQuestion('Enter your name: ');
+        const userAge = await askQuestion('Enter your age: ');
+
+        const filePath = './async_output.csv';
+        const csvContent = `Name,Age\n${userName},${userAge}`;
+        console.log('\nInput received. Starting file write...');
+
+        // --- 2. Use the asynchronous version (writeFile) with await ---
+        // This ensures the write operation completes before the main function exits.
+        await fs.writeFile(filePath, csvContent);
+        
+        console.log(`Successfully saved data to ${filePath}`);
+
+    } catch (error) {
+        console.error('An error occurred:', error.message);
+    } finally {
+        // Must close the readline interface to end the process
+        rl.close(); 
+    }
+}
+
+main();
+
+
+
+..other use of data
+  dataRows = data.map(obj => {
+                    return `${obj.Name}, ${obj.Address}`;
+                }).join('\n');
+                const headers = 'Name, Address';
+
+                dataInput = `${headers}\n${dataRows}`;

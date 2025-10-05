@@ -1,0 +1,55 @@
+<html>
+
+        <header >
+                <title id = "ulo">
+                        titlemo
+
+                </title>
+                       
+        </header>
+                <body>
+
+                        <button id="buttonExecute">
+                                button button button
+                                
+                        </button>
+                        <script>
+                                const addButton = document.getElementById('buttonExecute');
+                                addButton.addEventListener('click', inputBox);
+                                
+                                function inputBox(){//3
+                                        const webhookUrl = 'https://hook.eu2.make.com/xlowhiymbde5pmdytswhb6ghotzceob9';
+                                        const formData = {
+                                        id: 1,
+                                        name: 'John Doe',
+                                        age: 30,
+                                        birthday: '1/1/1990',
+                                        email: 'john.doe@example.com',
+                                        address: 'cab city',
+                                        nationality: 'philippines'
+                                        };
+
+                                        fetch(webhookUrl, {
+                                        method: 'POST',
+                                        headers: {
+                                        'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify(formData)
+                                        })
+                                        .then(response => {
+                                        if (response.ok) {
+                                                console.log('Data sent successfully!');
+                                        } else {
+                                                console.error('Failed to send data to webhook.');
+                                        }
+                                        })
+                                        .catch(error => {
+                                                console.error('An error occurred:', error);
+                                        }); 
+                                }//3
+                        </script>
+                </body>
+
+</html>
+
+

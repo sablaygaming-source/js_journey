@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Object to Array</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-4">Add a New User</h1>
+        <p class="text-center text-gray-600 mb-8">
+            This example shows how to declare an array of objects and add a new one dynamically.
+        </p>
+
+        <!-- Form for new user input -->
+        <div class="space-y-4 mb-8">
+            <div class="flex flex-col">
+                <label for="nameInput" class="text-gray-700 font-semibold mb-1">Name:</label>
+                <input type="text" id="nameInput" placeholder="e.g., Jane Doe" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+            </div>
+            <div class="flex flex-col">
+                <label for="ageInput" class="text-gray-700 font-semibold mb-1">Age:</label>
+                <input type="number" id="ageInput" placeholder="e.g., 25" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+            </div>
+            <button id="addButton" class="w-full bg-blue-600 text-white font-bold p-3 rounded-lg hover:bg-blue-700 transition-colors">
+                Add User to Array
+            </button>
+        </div>
+
+        <!-- Display area for the array content -->
+        <div class="border-t border-gray-200 pt-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Current Users in the Array:</h2>
+            <div id="userList" class="space-y-4">
+                <!-- User objects will be rendered here by JavaScript -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 1. Declare the initial array of objects
+        let users = [
+            { name: "John Smith", age: 30 },
+            { name: "Emily White", age: 22 }
+        ];
+
+        // Get references to the HTML elements
+        const nameInput = document.getElementById('nameInput');
+        const ageInput = document.getElementById('ageInput');
+        const addButton = document.getElementById('addButton');
+        const userListDiv = document.getElementById('userList');
+
+        // Function to render the array content to the HTML page
+        function renderUsers() {
+            // Clear the existing list before rendering
+            userListDiv.innerHTML = '';
+
+            if (users.length === 0) {
+                userListDiv.innerHTML = '<p class="text-gray-500 italic text-center">No users in the array yet.</p>';
+                return;
+            }
+
+            // Loop through the users array and create HTML elements for each object
+            users.forEach(user => {
+                const userCard = document.createElement('div');
+                userCard.className = 'bg-gray-100 p-4 rounded-lg shadow-sm border border-gray-200';
+                userCard.innerHTML = `
+                    <p class="font-bold text-lg">${user.name}</p>
+                    <p class="text-sm text-gray-600">Age: ${user.age}</p>
+                `;
+                userListDiv.appendChild(userCard);
+            });
+        }
+
+        // Function to handle the button click and add a new user
+        function handleAddUser() {
+            const name = nameInput.value.trim();
+            const age = parseInt(ageInput.value);
+
+            // Basic validation
+            if (!name || isNaN(age)) {
+                alert("Please enter a valid name and age.");
+                return;
+            }
+
+            // 2. Create the new object from input values
+            const newUser = {
+                name: name,
+                age: age
+            };
+
+            // 3. Add the new object to the array using the .push() method
+            users.push(newUser);
+
+            // Clear the input fields for the next entry
+            nameInput.value = '';
+            ageInput.value = '';
+
+            // Update the display to show the new user
+            renderUsers();
+        }
+
+        // Add the click event listener to the button
+        addButton.addEventListener('click', handleAddUser);
+
+        // Initial render to display the starting array
+        renderUsers();
+    </script>
+
+</body>
+</html>

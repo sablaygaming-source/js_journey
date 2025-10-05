@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Paragraph with JavaScript</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 20px;
+        }
+        #container {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            min-height: 100px;
+            width: 80%;
+            text-align: center;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        p {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Dynamically Adding a Paragraph</h1>
+
+    <div id="container">
+        <!-- New paragraphs will be added here by JavaScript -->
+        <p>This is the initial paragraph.</p>
+    </div>
+
+    <button id="addParagraphButton">Add a New Paragraph</button>
+
+    <script>
+        // Get a reference to the container and the button
+        const container = document.getElementById('container');
+        const addButton = document.getElementById('addParagraphButton');
+
+        let paragraphCount = 1;
+
+        // Function to create and add a new paragraph
+        function addNewParagraph() {
+            // 1. Create a new paragraph element
+            const newParagraph = document.createElement('p');
+            
+            // 2. Set the text content for the new paragraph
+            paragraphCount++;
+            newParagraph.textContent = `This is a new paragraph, number ${paragraphCount}.`;
+
+            // 3. Append the new paragraph to the container
+            container.appendChild(newParagraph);
+        }
+
+        // Add a click event listener to the button
+        addButton.addEventListener('click', addNewParagraph);
+    </script>
+
+</body>
+</html>

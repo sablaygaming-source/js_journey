@@ -1,0 +1,38 @@
+const _TITLE = inputData._title.split(',');
+
+
+const _OBJECT = [];
+const newValue = {PANGALAN: "", ikot : 0};
+let i = 0;
+while( i < _TITLE.length ){//2
+    
+    newValue.PANGALAN = _TITLE[i];
+    newValue.ikot = i + 10;
+    _OBJECT.push(newValue);
+    _OBJECT[i] = { ...newValue  };
+    i+=1;
+}//2
+
+return _OBJECT;
+
+
+
+// this is wrapped in an `async` function
+// you can use await throughout the function
+
+const _TITLE = inputData._title.split(',');
+
+
+const _OBJECT = [];
+const newValue = {PANGALAN: "", ikot : 0};
+let i = 0;
+while( i < _TITLE.length ){//2
+    
+    newValue.PANGALAN = _TITLE[i];
+    newValue.ikot = i + 10;
+    _OBJECT.push(newValue);
+    _OBJECT[i] = { ...newValue  };
+    i+=1;
+}//2
+
+return _OBJECT;

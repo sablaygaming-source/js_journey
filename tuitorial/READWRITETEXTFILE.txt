@@ -1,0 +1,78 @@
+//example of read text file  run this on node.js
+// This script demonstrates how to read a text file from the C: drive
+// using Node.js's built-in 'fs' (File System) module.
+// Note: This code will not run in a web browser. It must be executed
+// in a Node.js environment.
+
+const fs = require('fs');
+const path = require('path');
+
+// IMPORTANT: Replace this with the actual path to your file.
+// For example: 'C:\\Users\\YourUsername\\Documents\\my_document.txt'
+const filePath = path.join('C:\\TEST\\example.txt');
+
+// Using the asynchronous method (recommended)
+// This approach is non-blocking, which is ideal for server-side applications.
+fs.readFile(filePath, 'utf8', (err, data) => {
+  if (err) {
+    // If an error occurs (e.g., file not found or permission issue), it will be caught here.
+    console.error('An error occurred while reading the file:', err);
+    return; // Exit the function to prevent further execution.
+  }
+  
+  // If no error, the file's content is available in the 'data' variable.
+  console.log('--- File Content ---');
+  console.log(data);
+});
+
+// Using the synchronous method
+// This method is simpler but will block the program's execution until the file is read.
+// It's generally not recommended for server-side applications.
+try {
+  console.log('\n--- Synchronous File Content ---');
+  const syncData = fs.readFileSync(filePath, 'utf8');
+  console.log(syncData);
+} catch (err) {
+  console.error('An error occurred during synchronous read:', err);
+}
+
+
+
+/////////////////////////////////////////////
+//example of write text file run this on node.js
+
+// This script demonstrates how to write a text file to the C: drive
+// using Node.js's built-in 'fs' (File System) module.
+// Note: This code will not run in a web browser.
+
+const fs = require('fs');
+const path = require('path');
+
+// 1. Define the file path and content.
+// IMPORTANT: Replace 'YourUsername' with your actual Windows username.
+const filePath = path.join("C:\\TEST\\example.txt");
+let content = "1, shampoo, 10\nThis is a new line.";
+
+// 2. Write the file asynchronously.
+// The asynchronous method is recommended as it doesn't block other operations.
+fs.writeFile(filePath, content, 'utf8', (err) => {
+  if (err) {
+    // If an error occurs (e.g., directory doesn't exist or permission denied), it will be caught here.
+    console.error('An error occurred while writing the file:', err);
+    return;
+  }
+  
+  // If no error, the file has been successfully written.
+  console.log('File has been saved successfully!');
+});
+
+// 3. Write the file synchronously (blocking).
+// This method is simpler but should be used with caution as it can freeze the program.
+try {
+  console.log('\nStarting synchronous write...');
+  fs.writeFileSync(filePath, 'This is a synchronously written message.', 'utf8');
+  console.log('Synchronous file write complete.');
+} catch (err) {
+  console.error('An error occurred during synchronous write:', err);
+}
+

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch Google Sheet Data</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+  <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl text-center">
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">Google Sheet Data Fetcher</h1>
+    <p class="text-gray-600 mb-6">Click the button to fetch and display data from a public Google Sheet URL.</p>
+
+    <button id="fetchButton" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-md shadow-md hover:bg-blue-700 transition-all duration-300">
+      Fetch Data
+    </button>
+
+    <div id="loading" class="mt-4 text-gray-500 hidden">Loading...</div>
+    <div id="tableContainer" class="mt-6"></div>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const fetchButton = document.getElementById('fetchButton');
+      const tableContainer = document.getElementById('tableContainer');
+      const loadingIndicator = document.getElementById('loading');
+
+      // IMPORTANT: Replace this with your own published Google Sheet URL.
+      // Make sure the format is set to CSV or TSV when you publish it.
+      // This is a sample URL of a public sheet.
+      const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRLXgT5nQfXfXq7Wn_Xm-f2cWn-dY-4c0gM5A8O7JbY8nN9L2X/pub?gid=0&single=true&output=csv';
+
+      fetchButton.addEventListener('click', async () => {
+        // Show loading state and hide previous content
+        loadingIndicator.classList.remove('hidden');
+        tableContainer.innerHTML = '';
+        fetchButton.disabled = true;
+
+        try {
+          // Use fetch() to get the data from the public URL
+          const response = await fetch(sheetUrl);
+          
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          // Get the response body as text
+          const csvText = await response.text();
+          
+          // Parse the CSV data
+          const rows = csvText.trim().split('\n').map(row => row.split(','));
+          const headers = rows[0];
+          const data = rows.slice(1);
+          
+          // Create an HTML table from the parsed data
+          let tableHtml = '<table class="w-full border-collapse text-left">';
+          tableHtml += '<thead><tr class="bg-gray-200 border-b-2 border-gray-300">';
+          headers.forEach(header => {
+            tableHtml += `<th class="p-3 font-medium text-gray-700">${header}</th>`;
+          });
+          tableHtml += '</tr></thead>';
+          
+          tableHtml += '<tbody>';
+          data.forEach(row => {
+            tableHtml += '<tr class="border-b border-gray-200">';
+            row.forEach(cell => {
+              tableHtml += `<td class="p-3 text-gray-800">${cell}</td>`;
+            });
+            tableHtml += '</tr>';
+          });
+          tableHtml += '</tbody></table>';
+          
+          // Display the table on the page
+          tableContainer.innerHTML = tableHtml;
+
+        } catch (error) {
+          tableContainer.innerHTML = `<p class="text-red-500">Error fetching data: ${error.message}</p>`;
+        } finally {
+          // Hide loading indicator and re-enable button
+          loadingIndicator.classList.add('hidden');
+          fetchButton.disabled = false;
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

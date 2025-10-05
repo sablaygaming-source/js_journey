@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add to Shopping Cart</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl">
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-4">Shopping Cart</h1>
+        <p class="text-center text-gray-600 mb-8">
+            Add new items to the cart and see the list update.
+        </p>
+
+        <!-- Form for new item input -->
+        <div class="space-y-4 mb-8">
+            <div class="flex flex-col">
+                <label for="itemNameInput" class="text-gray-700 font-semibold mb-1">Item Name:</label>
+                <input type="text" id="itemNameInput" placeholder="e.g., Laptop" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+            </div>
+            <div class="flex flex-col">
+                <label for="itemPriceInput" class="text-gray-700 font-semibold mb-1">Price ($):</label>
+                <input type="number" id="itemPriceInput" placeholder="e.g., 1200" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all">
+            </div>
+            <button id="addItemButton" class="w-full bg-green-600 text-white font-bold p-3 rounded-lg hover:bg-green-700 transition-colors">
+                Add Item to Cart
+            </button>
+        </div>
+
+        <!-- Display area for the shopping cart content -->
+        <div class="border-t border-gray-200 pt-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Current Items in Cart:</h2>
+            <div id="cartList" class="space-y-4">
+                <!-- Cart items will be rendered here by JavaScript -->
+            </div>
+            <div id="cartTotal" class="mt-4 text-right font-bold text-lg text-gray-800">
+                Total: $0.00
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Declare the initial array of objects for the shopping cart
+        let shoppingCart = [
+            { name: "Coffee Mug", price: 15.00 },
+            { name: "Notebook", price: 5.50 }
+        ];
+
+        // Get references to the HTML elements
+        const itemNameInput = document.getElementById('itemNameInput');
+        const itemPriceInput = document.getElementById('itemPriceInput');
+        const addItemButton = document.getElementById('addItemButton');
+        const cartListDiv = document.getElementById('cartList');
+        const cartTotalDiv = document.getElementById('cartTotal');
+
+        // Function to render the cart content to the HTML page
+        function renderCart() {
+            // Clear the existing list before rendering
+            cartListDiv.innerHTML = '';
+            let total = 0;
+
+            if (shoppingCart.length === 0) {
+                cartListDiv.innerHTML = '<p class="text-gray-500 italic text-center">Your cart is empty.</p>';
+                cartTotalDiv.textContent = 'Total: $0.00';
+                return;
+            }
+
+            // Using a native for loop to iterate and print each object
+            for (let i = 0; i < shoppingCart.length; i++) {
+                const item = shoppingCart[i]; // Get the current object by its index
+                total += item.price;
+                
+                const itemCard = document.createElement('div');
+                itemCard.className = 'bg-green-50 p-4 rounded-lg shadow-sm border border-green-200 flex justify-between items-center';
+                itemCard.innerHTML = `
+                    <p class="font-bold text-lg text-green-800">${item.name}</p>
+                    <p class="text-sm text-green-600">$${item.price.toFixed(2)}</p>
+                `;
+                cartListDiv.appendChild(itemCard);
+            }
+
+            // Update the total display
+            cartTotalDiv.textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        // Function to handle the button click and add a new item
+        function handleAddItem() {
+            const name = itemNameInput.value.trim();
+            const price = parseFloat(itemPriceInput.value);
+
+            // Basic validation
+            if (!name || isNaN(price) || price <= 0) {
+                alert("Please enter a valid item name and price.");
+                return;
+            }
+
+            // 2. Create the new object from input values
+            const newItem = {
+                name: name,
+                price: price
+            };
+
+            // 3. Add the new object to the array using the .push() method
+            shoppingCart.push(newItem);
+
+            // Clear the input fields for the next entry
+            itemNameInput.value = '';
+            itemPriceInput.value = '';
+
+            // Update the display to show the new item
+            renderCart();
+        }
+
+        // Add the click event listener to the button
+        addItemButton.addEventListener('click', handleAddItem);
+
+        // Initial render to display the starting cart
+        renderCart();
+    </script>
+
+</body>
+</html>

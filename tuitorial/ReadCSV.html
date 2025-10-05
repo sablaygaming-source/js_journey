@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV File Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-6 flex flex-col items-center">
+
+    <!-- Read File Section -->
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl text-center mb-8">
+        <h1 class="text-3xl font-bold mb-4 text-gray-800">CSV File Reader</h1>
+        <p class="text-gray-600 mb-6">Select a .csv file from your computer to parse and display its content.</p>
+
+        <!-- File input element -->
+        <input type="file" id="csvFileInput" class="block w-full text-sm text-gray-500
+                                                    file:mr-4 file:py-2 file:px-4
+                                                    file:rounded-full file:border-0
+                                                    file:text-sm file:font-semibold
+                                                    file:bg-blue-50 file:text-blue-700
+                                                    hover:file:bg-blue-100 transition-colors">
+
+        <!-- Area to display the parsed data -->
+        <div id="tableContainer" class="mt-8 overflow-x-auto">
+            <!-- The parsed table will be inserted here by JavaScript -->
+        </div>
+
+        <div id="errorContainer" class="mt-8 text-red-600 font-medium"></div>
+    </div>
+    
+    <!-- Save File Section -->
+    <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl text-center">
+        <h1 class="text-3xl font-bold mb-4 text-gray-800">Save a CSV File</h1>
+        <p class="text-gray-600 mb-6">Type or paste CSV data below and click the button to save it.</p>
+        
+        <textarea id="csvContentInput" rows="8" placeholder="Type your CSV data here...&#10;For example:&#10;Name,Age,City&#10;John Doe,30,New York&#10;Jane Smith,25,London"
+            class="w-full p-4 border border-gray-300 rounded-lg mb-6 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"></textarea>
+        
+        <button id="saveCsvButton" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors">
+            Download CSV
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const csvFileInput = document.getElementById('csvFileInput');
+            const tableContainer = document.getElementById('tableContainer');
+            const errorContainer = document.getElementById('errorContainer');
+            const csvContentInput = document.getElementById('csvContentInput');
+            const saveCsvButton = document.getElementById('saveCsvButton');
+
+            // --- READ CSV LOGIC ---
+            csvFileInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                
+                tableContainer.innerHTML = '';
+                errorContainer.textContent = '';
+                
+                if (!file) {
+                    errorContainer.textContent = 'No file selected.';
+                    return;
+                }
+
+                if (!file.name.endsWith('.csv')) {
+                    errorContainer.textContent = 'Please select a valid .csv file.';
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    const csvText = e.target.result;
+                    try {
+                        const data = parseCSV(csvText);
+                        renderTable(data);
+                    } catch (err) {
+                        errorContainer.textContent = 'Error parsing CSV: ' + err.message;
+                    }
+                };
+
+                reader.onerror = (err) => {
+                    errorContainer.textContent = 'Error reading file: ' + err.message;
+                };
+
+                reader.readAsText(file);
+            });
+
+            /**
+             * Parses a CSV string into an array of objects.
+             * Assumes the first row contains headers.
+             * @param {string} csv A string containing CSV data.
+             * @returns {Array<Object>} An array of objects representing the CSV data.
+             */
+            function parseCSV(csv) {
+                const lines = csv.trim().split('\n');
+                if (lines.length === 0) {
+                    throw new Error('CSV file is empty.');
+                }
+
+                const headers = lines[0].split(',').map(header => header.trim());
+                const result = [];
+
+                for (let i = 1; i < lines.length; i++) {
+                    const currentLine = lines[i].split(',');
+                    const obj = {};
+                    
+                    if (currentLine.length !== headers.length) {
+                        console.warn(`Skipping malformed row: ${lines[i]}`);
+                        continue;
+                    }
+
+                    for (let j = 0; j < headers.length; j++) {
+                        obj[headers[j]] = currentLine[j].trim();
+                    }
+                    result.push(obj);
+                }
+                return result;
+            }
+
+            /**
+             * Renders a JavaScript array of objects as an HTML table.
+             * @param {Array<Object>} data The data to be rendered.
+             */
+            function renderTable(data) {
+                if (data.length === 0) {
+                    tableContainer.textContent = 'CSV file contains headers but no data rows.';
+                    return;
+                }
+
+                const table = document.createElement('table');
+                table.className = 'w-full table-auto border-collapse border border-gray-300 rounded-md shadow-sm';
+                const thead = document.createElement('thead');
+                const tbody = document.createElement('tbody');
+                
+                const headerRow = document.createElement('tr');
+                const headers = Object.keys(data[0]);
+                headers.forEach(headerText => {
+                    const th = document.createElement('th');
+                    th.textContent = headerText;
+                    th.className = 'py-3 px-4 bg-gray-200 border-b border-gray-300 text-left text-sm font-semibold text-gray-700 uppercase tracking-wider';
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+                
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    Object.values(item).forEach(cellText => {
+                        const td = document.createElement('td');
+                        td.textContent = cellText;
+                        td.className = 'py-3 px-4 border-b border-gray-200 text-left text-sm text-gray-600';
+                        row.appendChild(td);
+                    });
+                    tbody.appendChild(row);
+                });
+                table.appendChild(tbody);
+
+                tableContainer.appendChild(table);
+            }
+
+            // --- SAVE CSV LOGIC ---
+            saveCsvButton.addEventListener('click', () => {
+                const textToSave = csvContentInput.value;
+                if (textToSave.trim() === '') {
+                    alert('Please enter some text to save.');
+                    return;
+                }
+                
+                const blob = new Blob([textToSave], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'data.csv';
+                
+                document.body.appendChild(a);
+                a.click();
+                
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        });
+    </script>
+</body>
+</html>

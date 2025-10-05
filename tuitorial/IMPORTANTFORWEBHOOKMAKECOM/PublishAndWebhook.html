@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch Google Sheet Data aaaa</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+  <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-2xl text-center">
+    <h1 class="text-3xl font-bold text-gray-800 mb-2">Google Sheet Data Fetcher</h1>
+    <p class="text-gray-600 mb-6">Click the buttons below to fetch data from a Google Sheet and send it to a webhook.</p>
+
+    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+      <button id="fetchButton" class="bg-blue-600 text-white font-semibold py-3 px-6 rounded-md shadow-md hover:bg-blue-700 transition-all duration-300">
+        Fetch & Display Data
+      </button>
+      <button id="sendToWebhookButton" class="bg-purple-600 text-white font-semibold py-3 px-6 rounded-md shadow-md hover:bg-purple-700 transition-all duration-300">
+        Send Data to Webhook
+      </button>
+    </div>
+
+    <div id="loading" class="mt-4 text-gray-500 hidden">Loading...</div>
+    <div id="tableContainer" class="mt-6"></div>
+    <div id="statusMessage" class="mt-4 text-green-600"></div>
+
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const fetchButton = document.getElementById('fetchButton');
+      const sendToWebhookButton = document.getElementById('sendToWebhookButton');
+      const tableContainer = document.getElementById('tableContainer');
+      const loadingIndicator = document.getElementById('loading');
+      const statusMessage = document.getElementById('statusMessage');
+
+      // IMPORTANT: Replace this with your own published Google Sheet URL.
+      // Make sure the format is set to CSV or TSV when you publish it.
+      // This is a sample URL of a public sheet.
+      const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQJUaePqmfS-HyUgnXowTDqv3GjyW-2UfcDZo8lQjbO5ov3Y4iR8cD_zFqVrHi4uKZU9x_YfEgXTOh9/pub?gid=0&single=true&output=csv';
+      
+      // IMPORTANT: Replace this with your own Make.com Webhook URL.
+      const webhookUrl = 'YOUR_MAKE_COM_WEBHOOK_URL_HERE';
+
+      // Function to fetch data from the sheet
+      const fetchSheetData = async () => {
+        try {
+          // Use fetch() to get the data from the public URL
+          const response = await fetch(sheetUrl);
+          
+          if (!response.ok) {
+            // Check for common error status codes
+            if (response.status === 404) {
+              throw new Error('404 Not Found: Check if the sheet URL is correct.');
+            } else if (response.status >= 500) {
+              throw new Error(`Server Error: Status ${response.status}. Google Sheets may be unavailable.`);
+            }
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          const csvText = await response.text();
+          return csvText;
+        } catch (error) {
+          // The 'Failed to fetch' error is often due to CORS.
+          // This message helps clarify that.
+          if (error.message.includes('Failed to fetch')) {
+             throw new Error('Failed to fetch: This is a common CORS error. Ensure you are running this from a server or your sheet is correctly published.');
+          }
+          throw new Error(`Error fetching data: ${error.message}`);
+        }
+      };
+
+      // Function to parse CSV text into an array of objects
+      const parseCsvData = (csvText) => {
+        const rows = csvText.trim().split('\n');
+        // Handle case of empty sheet
+        if (rows.length <= 1) {
+            return [];
+        }
+        const headers = rows[0].split(',');
+        const data = rows.slice(1).map(row => {
+          const values = row.split(',');
+          let obj = {};
+          headers.forEach((header, index) => {
+            obj[header.trim()] = values[index] ? values[index].trim() : '';
+          });
+          return obj;
+        });
+        return data;
+      };
+
+      // Function to display data in a table
+      const displayData = (data) => {
+        if (data.length === 0) {
+          tableContainer.innerHTML = '<p class="text-gray-500">No data to display.</p>';
+          return;
+        }
+        
+        const headers = Object.keys(data[0]);
+        let tableHtml = '<table class="w-full border-collapse text-left">';
+        tableHtml += '<thead><tr class="bg-gray-200 border-b-2 border-gray-300">';
+        headers.forEach(header => {
+          tableHtml += `<th class="p-3 font-medium text-gray-700">${header}</th>`;
+        });
+        tableHtml += '</tr></thead>';
+        
+        tableHtml += '<tbody>';
+        data.forEach(row => {
+          tableHtml += '<tr class="border-b border-gray-200">';
+          headers.forEach(header => {
+            tableHtml += `<td class="p-3 text-gray-800">${row[header]}</td>`;
+          });
+          tableHtml += '</tr>';
+        });
+        tableHtml += '</tbody></table>';
+        
+        tableContainer.innerHTML = tableHtml;
+      };
+
+      // Event listener for the "Fetch & Display Data" button
+      fetchButton.addEventListener('click', async () => {
+        loadingIndicator.classList.remove('hidden');
+        tableContainer.innerHTML = '';
+        statusMessage.textContent = '';
+        fetchButton.disabled = true;
+
+        try {
+          const csvText = await fetchSheetData();
+          const parsedData = parseCsvData(csvText);
+          displayData(parsedData);
+          statusMessage.textContent = 'Data fetched and displayed successfully!';
+          statusMessage.classList.remove('text-red-600');
+          statusMessage.classList.add('text-green-600');
+        } catch (error) {
+          statusMessage.textContent = error.message;
+          statusMessage.classList.remove('text-green-600');
+          statusMessage.classList.add('text-red-600');
+        } finally {
+          loadingIndicator.classList.add('hidden');
+          fetchButton.disabled = false;
+        }
+      });
+      
+      // Event listener for the "Send Data to Webhook" button
+      sendToWebhookButton.addEventListener('click', async () => {
+        loadingIndicator.classList.remove('hidden');
+        statusMessage.textContent = '';
+        sendToWebhookButton.disabled = true;
+        
+        try {
+          // Fetch and parse the data first
+          const csvText = await fetchSheetData();
+          const parsedData = parseCsvData(csvText);
+          
+          // Send the data to the Make.com webhook
+          const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(parsedData), // Send the array of objects as a JSON string
+          });
+          
+          if (!response.ok) {
+            throw new Error(`Webhook failed with status: ${response.status}`);
+          }
+          
+          statusMessage.textContent = 'Data sent to webhook successfully!';
+          statusMessage.classList.remove('text-red-600');
+          statusMessage.classList.add('text-green-600');
+          
+        } catch (error) {
+          statusMessage.textContent = `Failed to send data: ${error.message}`;
+          statusMessage.classList.remove('text-green-600');
+          statusMessage.classList.add('text-red-600');
+        } finally {
+          loadingIndicator.classList.add('hidden');
+          sendToWebhookButton.disabled = false;
+        }
+      });
+
+    });
+  </script>
+
+</body>
+</html>
