@@ -1,1 +1,2 @@
-open this file a.txt
+ambo, 23, ambo@23
+beny, 40, beny@40

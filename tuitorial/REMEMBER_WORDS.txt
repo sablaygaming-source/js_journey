@@ -113,3 +113,56 @@ main();
                 const headers = 'Name, Address';
 
                 dataInput = `${headers}\n${dataRows}`;
+
+
+    console.log("u inputed ", data);
+    //array of object to stringCSV
+    const headers = Object.keys(data[0]).join(",");
+    const rows = data.map(obj => Object.values(obj).join(",")).join("\n");
+
+    subData = `${headers}\n${rows}`;
+    console.log("\nresult data \n", subData);
+
+
+
+////////////////
+const fs = require('fs').promises; // 1. IMPORTANT: Use the Promise-based API
+const fs_sync = require('fs');     // Need the synchronous API just for setup
+
+const filePath = 'sample_data_async.txt';
+const contentToWrite = 'This file read works correctly with await!';
+
+// Create the file synchronously to ensure it exists for the read operation
+fs_sync.writeFileSync(filePath, contentToWrite); 
+
+/**
+ * Reads a file and demonstrates the proper use of async/await.
+ */
+async function readFileCorrectly() {
+    console.log('1. Starting file read...');
+    
+    try {
+        // 2. 'await' now works because fs.readFile returns a Promise
+        const data = await fs.readFile(filePath, 'utf8');
+        
+        // 3. This line only runs AFTER the file is fully read
+        console.log('\n2. SUCCESS: Read operation completed.');
+        console.log('File Content:', data);
+
+    } catch (error) {
+        // 4. Critical: A try...catch block is needed to handle errors like file not found
+        console.error('\nERROR: Failed to read file.', error.message);
+    }
+}
+
+// 5. CRITICAL: You must execute the async function to start the process!
+readFileCorrectly();
+
+console.log('3. Script continues running non-blocking tasks (like this console log).');
+
+///////////////////////
+data = [];
+    data.push({ Name: "", Address: "" });
+    data[0].Name = await inpStr("Name: ");
+    data[0].Address = await inpStr("Address: ");
+

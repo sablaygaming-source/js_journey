@@ -1,37 +1,38 @@
 
 //"user strict";
+const fs = require('fs');
 
-const readline = require('readline');
-
+const readline = require('readline').promises;
 // Setup the readline interface
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
 
+/*
 function inpStr(query) {
     return new Promise(resolve => rl.question(query, resolve));
 }
+*/
+async function readF(fileT, contF) {
+    dataF = null;
+    try {
+        dataF = await fs.readFile(fileT, contF);
 
+    } catch (error) {
+        console.error("from RSM error: ", error.message);
+    }
+
+    return new Promise(() => dataF);
+}
 
 async function main() {
 
-    data = [];
-    data.push({ Name: "", Address: "" });
-    data[0].Name = await inpStr("Name: ");
-    data[0].Address = await inpStr("Address: ");
+    firT = await rl.question("FileName: ");
 
-    console.log("u inputed ", data);
-    //array of object to stringCSV
-    const headers = Object.keys(data[0]).join(",");
-    const rows = data.map(obj => Object.values(obj).join(",")).join("\n");
-
-    subData = `${headers}\n${rows}`;
-    console.log("\nresult data \n", subData);
-
-    //now create stringCsv to array of object 
-    //pause
-    await inpStr("exit prog...");
+    retD = await readF(firT, 'utf8');
+    console.log("\nretD result ", retD);
+    await rl.question("exit prog...");
     rl.close();
 }
 
