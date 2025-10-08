@@ -375,7 +375,7 @@ With arrow functions, you can use a shorthand for returning an object. If the fu
 
 JavaScript
 // Incorrect: JavaScript thinks `{` is a block, not an object
-// const createPerson = (name, job) => { name: name, job: job }; ❌
+// const createPerson = (name, job) { name: name, job: job }; ❌
 // Correct: Parentheses tell JavaScript to treat `{...}` as an object
 const createPerson = (name, job) => ({ name: name, job: job });
 
@@ -843,3 +843,39 @@ let str3 = "89 meters";
 let num3 = Number(str3);
 console.log(num3); // Output: NaN
 
+/////////////////////////////////
+That is a crucial question about Type Coercion in JavaScript! The behavior inside an if condition when comparing a string and a number is predictable, but it might not be what you initially expect.
+
+When an if condition uses a non-strict comparison operator (==), JavaScript performs an automatic conversion process (coercion) to make the types match.
+
+The Rule: Number Wins
+In JavaScript's non-strict comparison (==), if you compare a string and a number, the string is converted into a number before the comparison is made.
+
+The primary rule in the specification states:
+
+If the operands are of different types and one of them is a Number and the other is a String, the String is converted to a Number, and the comparison proceeds.
+
+Example Breakdown (Non-Strict ==)
+Consider the following comparisons:
+
+Comparison	Conversion Process	Result
+'5' == 5	The string '5' is converted to the number 5. (5 == 5)	true
+'20' == 20.00	The string '20' is converted to the number 20. (20 == 20)	true
+'2x' == 2	The string '2x' is converted to a number. Since it can't be parsed, it results in NaN (Not a Number). (NaN == 2)	false
+
+Export to Sheets
+⚠️ The Recommended Solution: Strict Comparison (===)
+To avoid confusing type coercion rules entirely, the recommended best practice in JavaScript is to always use the Strict Equality Operator (===).
+
+What Strict Equality Does
+The === operator checks two things:
+
+Value: Are the values the same?
+
+Type: Are the data types the same?
+
+If the types are different (like string vs. number), it immediately returns false without performing any conversion.
+
+Comparison	Process	Result
+'5' === 5	Types are different (String vs. Number).	false
+'2x' === 2	Types are different.	false

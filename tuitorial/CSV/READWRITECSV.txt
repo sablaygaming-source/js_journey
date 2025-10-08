@@ -25,7 +25,7 @@ const filePath = path.join(__dirname, 'users.csv');
  */
 function convertToCsv(arr) {
   if (arr.length === 0) {
-    return '';
+    return '';	
   }
 
   // Get the headers from the first object's keys
