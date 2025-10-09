@@ -844,6 +844,8 @@ let num3 = Number(str3);
 console.log(num3); // Output: NaN
 
 /////////////////////////////////
+==  PATH === == EQUAL AND TRIPLE EQUAL CONDITION
+
 That is a crucial question about Type Coercion in JavaScript! The behavior inside an if condition when comparing a string and a number is predictable, but it might not be what you initially expect.
 
 When an if condition uses a non-strict comparison operator (==), JavaScript performs an automatic conversion process (coercion) to make the types match.
@@ -879,3 +881,180 @@ If the types are different (like string vs. number), it immediately returns fals
 Comparison	Process	Result
 '5' === 5	Types are different (String vs. Number).	false
 '2x' === 2	Types are different.	false
+
+////////////////////////////
+.map()  PATH MAP() PAG LOOP NG INDEX AT VALUE NG ARRAY MAG RETURN NG ARRAY
+
+map returns array
+The callback function provided to .map() is executed once for every element in the array and can receive up to three positional parameters in a specific, mandatory order.
+
+Here is the complete signature of the callback function:
+
+Complete Signature of the .map() Callback
+The syntax for the callback is:
+
+array.map(callback(currentValue,index,array)=>{…})
+Position	Parameter Name	Required/Optional	Description
+1st	currentValue (e.g., item, value)	Required	The element value being processed in the current iteration.
+2nd	index (e.g., i)	Optional	The index position (starting from 0) of the element being processed.
+3rd	array (e.g., arr)	Optional	A reference to the original array that .map() was called upon.
+
+Export to Sheets
+Examples of Usage
+You only need to include the parameters you actually intend to use.
+
+1. Value Only (Most Common)
+If you only need the value to transform it, you use just the first parameter:
+
+JavaScript
+
+const numbers = [10, 20, 30];
+
+// 'num' is the first parameter (currentValue)
+const strings = numbers.map(num => String(num)); 
+// Result: ["10", "20", "30"]
+2. Value and Index
+If you need to use the position (index) of the element in your transformation (e.g., to create an ID):
+
+JavaScript
+
+const names = ['Anya', 'Ben', 'Cloe'];
+
+// (name, i) uses the first two parameters
+const indexedNames = names.map((name, i) => {
+    return `${i + 1}. ${name}`;
+});
+// Result: ["1. Anya", "2. Ben", "3. Cloe"]
+3. All Three Parameters
+This is rare, but useful if the logic for one element requires looking up data in another part of the original array:
+
+JavaScript
+
+const grades = [90, 85, 95];
+
+// (score, i, arr) uses all three parameters
+const scaledGrades = grades.map((score, i, arr) => {
+    // Example use: Compare score against the length of the array
+    return score + arr.length;
+});
+// Result: [93, 88, 98] (90 + 3, 85 + 3, 95 + 3)
+
+////////////////////////////
+.join()  PATH JOIN() PAG SASAMA NG ARRAY AT RETURN STRING
+
+Parameter of join()
+The .join() method takes one optional parameter called the separator.
+
+Function Signature
+array.join(separator)
+Parameter Name	Required/Optional	Type	Description
+separator	Optional	<string>	The string to be used to separate each element of the array in the resulting string.
+
+Export to Sheets
+Behavior based on the separator
+If separator is...	Behavior	Example Output
+Omitted or undefined	Uses a comma (,) by default.	"a,b,c"
+An empty string ('')	Joins elements with no space or character between them.	"abc"
+A custom string (' - ')	Uses the custom string as the delimiter.	"a - b - c"
+
+Export to Sheets
+2. Return Value of join()
+The .join() method always returns a single, new string.
+
+It iterates over the array elements, converts each element into a string (if it isn't one already), inserts the separator, and then returns the complete string. The original array is never modified.
+
+Example
+JavaScript
+
+const userTags = ["code", "design", "testing", "deploy"];
+
+// Case 1: No separator provided
+const tagStringDefault = userTags.join(); 
+console.log(tagStringDefault); 
+// Returns: "code,design,testing,deploy"
+
+// Case 2: Using a space separator
+const tagStringSpaced = userTags.join(" "); 
+console.log(tagStringSpaced); 
+// Returns: "code design testing deploy"
+
+// Case 3: Using a pipe and space separator
+const tagStringFormatted = userTags.join(" | "); 
+console.log(tagStringFormatted); 
+// Returns: "code | design | testing | deploy"
+
+/////////////////////////////////
+typeof  keyword   PATH TYPEOF PANG ALAM KUNG ANUNG KLASE 
+
+How to Use typeof
+The typeof operator is placed directly before the value you want to check. It returns a string indicating the type.
+
+Syntax
+JavaScript
+
+typeof operand;
+// OR
+typeof (operand);
+Basic Examples
+Code	Output	Actual Type	Explanation
+typeof "hello"	"string"	String	Any text data.
+typeof 42	"number"	Number	Any integer or floating-point value.
+typeof true	"boolean"	Boolean	true or false.
+typeof undefined	"undefined"	Undefined	A variable that has been declared but not assigned a value.
+typeof console.log	"function"	Function	All functions are returned as type "function".
+
+Export to Sheets
+Key Use Cases and Quirks of typeof
+1. Checking for Objects and Arrays
+This is where typeof has a specific behavior:
+
+Objects: typeof returns "object" for regular objects ({}).
+
+Arrays: typeof also returns "object" for arrays ([]).
+
+To distinguish a plain object from an array, you typically need to use the Array.isArray() method instead of typeof.
+
+JavaScript
+
+const myArray = [1, 2, 3];
+const myObject = { a: 1 };
+
+console.log(typeof myArray);       // Output: "object" (Quirk!)
+console.log(Array.isArray(myArray)); // Output: true (The correct way to check)
+console.log(typeof myObject);      // Output: "object"
+2. The null Quirk
+Historically, this is the most famous quirk of JavaScript's typeof operator:
+
+JavaScript
+
+console.log(typeof null); // Output: "object"
+This is a well-known bug that exists for historical reasons and cannot be fixed without breaking millions of websites. When checking for null, you should use a strict equality check (===):
+
+JavaScript
+
+let data = null;
+if (data === null) {
+    console.log("It is explicitly null.");
+}
+3. Conditional Logic
+The most powerful use is in conditional statements to control program flow based on the data type:
+
+JavaScript
+
+function greet(user) {
+    // Check if the user input is a string before capitalizing it
+    if (typeof user === 'string') {
+        console.log(`Hello, ${user.toUpperCase()}!`);
+    } else {
+        console.log("Input is not valid text.");
+    }
+}
+
+greet("Bob");    // Hello, BOB!
+greet(999);      // Input is not valid text.
+In summary, typeof is your go-to tool for quickly determining the nature of a variable, though you need to be aware of its specific results for arrays and null.
+
+
+
+
+/////////////////////////

@@ -1,5 +1,5 @@
 
-//"user strict";
+"user strict";
 const fs = require('fs');
 const { stringify } = require('querystring');
 
@@ -11,8 +11,6 @@ const rl = readline.createInterface({
 });
 
 async function main() {
-
-
     data = [{ Name: "ambo", Email: "ambo@1" }, { Name: "bentong", Email: "bentong@1" }];
     headers = Object.keys(data[0]);
 
@@ -21,20 +19,30 @@ async function main() {
     }
     ).join('\n');
 
-    headersS = headers.map((B) => {
+    const headersS = headers.map((i, B) => {
 
-        return `${B} `;
+        return `${i}, ${B} `;
+
     }
     ).join(',');
 
-    headersS += sData;
+    console.log("\na before headersS ", headersS, typeof headersS, ", length ", headersS.length)
+    //headersS += sData;
 
-    console.log("\nsData is ", sData, ", lenght ", sData.length);
+    console.log("\n\nprocess \nsData is ", sData, ", lenght ", sData.length);
 
     console.log("\nheadersS ", headersS);
 
+    console.log("\ntypeof headersS is ", typeof headersS)
+
     //console.log("\n\nsData typeof ", tData, "\n123 ", typeof 123, "\n45.67 ", typeof 45.67);
 
+
+    console.log("\n\naaa headers value ", headers, "\ntypeof ", typeof headers);
+
+    console.log("\n\n headersS value ", headersS, "\ntypeof ", typeof headersS);
+
+    console.log("\n\n\nfinal review on headers value ", headers, "\ntypeof ", typeof headers);
 
 
     await rl.question("exit prog...\npress any...");
