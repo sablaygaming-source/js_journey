@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple DB Example</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 30px;
+        }
+
+        /* Basic styling to make it readable */
+        form {
+            background: #f4f4f4;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        input {
+            display: block;
+            margin-bottom: 10px;
+            padding: 8px;
+            width: 300px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Separate style for the Refresh button for clarity */
+        #refreshButtonEl {
+            background: #007bff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Student Registration</h1>
+
+    <form id="studentForm">
+        <h3>Add New Student</h3>
+        <input type="text" id="fullNameInput" placeholder="Full Name" required>
+        <input type="text" id="addressInput" placeholder="Address" required>
+        <input type="text" id="courseInput" placeholder="Course" required>
+        <input type="email" id="emailInput" placeholder="Email" required>
+        <button type="submit">Save to Database</button>
+
+    </form>
+
+    <!-- Changed type to 'button' and added ID to the button element -->
+    <form id="refreshForm">
+        <button type="button" id="refreshButtonEl">REFRESH</button>
+    </form>
+    <form id="displayText">
+        <h1 type="label" id="display2">WAITING FOR SERVER</h1>
+    </form>
+    <h3>Database Records:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date Added</th>
+                <th>Full Name</th>
+                <th>Address</th>
+                <th>Course</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
